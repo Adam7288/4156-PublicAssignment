@@ -1,1 +1,70 @@
-var _0x417f=["","\x70\x6F\x72\x74","\x6C\x6F\x63\x61\x74\x69\x6F\x6E","\x68\x6F\x73\x74\x6E\x61\x6D\x65","\x73\x65\x61\x72\x63\x68","\x70","\x67\x65\x74","\x74\x65\x73\x74","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x63\x68\x61\x72\x41\x74","\x69\x64","\x50\x4F\x53\x54","\x2F\x6D\x6F\x76\x65\x2F","\x2F","\x70\x61\x72\x73\x65","\x6D\x6F\x76\x65\x56\x61\x6C\x69\x64\x69\x74\x79","\x3C\x68\x33\x3E\x3C\x70\x20\x73\x74\x79\x6C\x65\x3D\x22\x63\x6F\x6C\x6F\x72\x3A\x72\x65\x64\x3B\x22\x3E","\x6D\x65\x73\x73\x61\x67\x65","\x3C\x2F\x70\x3E\x3C\x2F\x68\x33\x3E","\x68\x74\x6D\x6C","\x23\x73\x74\x61\x72\x74\x42\x75\x74\x74\x6F\x6E","\x69\x6E\x6E\x65\x72\x54\x65\x78\x74","\x61\x6A\x61\x78","\x47\x61\x6D\x65\x20\x4F\x76\x65\x72\x21","\x64\x69\x73\x70\x6C\x61\x79","\x73\x74\x79\x6C\x65","\x6E\x6F\x6E\x65","\x68\x69\x64\x65","\x23\x73\x74\x61\x72\x74\x47\x61\x6D\x65","\x23\x70\x6C\x61\x79\x65\x72\x54\x79\x70\x65\x73","\x3F\x70\x3D","\x72\x65\x70\x6C\x61\x63\x65\x53\x74\x61\x74\x65","\x68\x69\x73\x74\x6F\x72\x79","\x23\x74\x69\x74\x6C\x65","\x20\x28\x50\x6C\x61\x79\x65\x72\x20","\x29","\x63\x6C\x69\x63\x6B","\x61\x63\x74\x69\x76\x65","\x72\x65\x6D\x6F\x76\x65\x43\x6C\x61\x73\x73","\x2E\x70\x6C\x61\x79\x65\x72\x54\x79\x70\x65","\x61\x64\x64\x43\x6C\x61\x73\x73","\x74\x65\x78\x74","\x6F\x6E","\x2E\x61\x63\x74\x69\x76\x65","\x6C\x65\x6E\x67\x74\x68","\x2F\x73\x74\x61\x72\x74\x67\x61\x6D\x65","\x3C\x61\x20\x74\x61\x72\x67\x65\x74\x3D\x22\x5F\x62\x6C\x61\x6E\x6B\x22\x20\x68\x72\x65\x66\x3D\x22\x68\x74\x74\x70\x3A\x2F\x2F","\x3A","\x2F\x6A\x6F\x69\x6E\x67\x61\x6D\x65\x2F\x22\x3E\x4C\x69\x6E\x6B\x20\x66\x6F\x72\x20\x50\x6C\x61\x79\x65\x72\x20\x32\x3C\x2F\x61\x3E","\x3C\x68\x33\x3E\x57\x61\x69\x74\x69\x6E\x67\x20\x66\x6F\x72\x20\x70\x6C\x61\x79\x65\x72\x20\x32\x20\x74\x6F\x20\x6A\x6F\x69\x6E\x21\x3C\x2F\x68\x33\x3E","\x50\x6C\x65\x61\x73\x65\x20\x73\x65\x6C\x65\x63\x74\x20\x61\x6E\x20\x6F\x70\x74\x69\x6F\x6E\x21","\x77\x73\x3A\x2F\x2F\x6C\x6F\x63\x61\x6C\x68\x6F\x73\x74\x3A\x38\x30\x38\x30\x2F\x67\x61\x6D\x65\x62\x6F\x61\x72\x64","\x74\x75\x72\x6E","\x74\x79\x70\x65","\x70\x32","\x70\x31","\x62\x6F\x61\x72\x64\x53\x74\x61\x74\x65","\x77\x69\x6E\x6E\x65\x72","\x3C\x68\x33\x3E\x47\x61\x6D\x65\x20\x4F\x76\x65\x72\x21\x20\x50\x6C\x61\x79\x65\x72\x20","\x20\x68\x61\x73\x20\x77\x6F\x6E\x20\x74\x68\x65\x20\x67\x61\x6D\x65\x21\x3C\x2F\x68\x33\x3E","\x69\x73\x44\x72\x61\x77","\x3C\x68\x33\x3E\x54\x68\x69\x73\x20\x67\x61\x6D\x65\x20\x69\x73\x20\x61\x20\x64\x72\x61\x77\x21\x3C\x2F\x68\x33\x3E","\x3C\x68\x33\x3E\x50\x6C\x61\x79\x65\x72\x20","\x27\x73\x20\x54\x75\x72\x6E\x3C\x2F\x68\x33\x3E","\x67\x61\x6D\x65\x53\x74\x61\x72\x74\x65\x64","\x72\x65\x70\x6C\x61\x63\x65","\x23","\x6F\x70\x65\x6E","\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72","\x64\x61\x74\x61"];var gameStarted=!1,type=_0x417f[0],port=window[_0x417f[2]][_0x417f[1]],host=window[_0x417f[2]][_0x417f[3]];const queryString=window[_0x417f[2]][_0x417f[4]],urlParams= new URLSearchParams(queryString);var player=urlParams[_0x417f[6]](_0x417f[5]),turn=1,tracker=document[_0x417f[8]](_0x417f[7]);function playTurn(_0x8743xb){if(gameStarted){x= _0x8743xb[_0x417f[10]][_0x417f[9]](0),y= _0x8743xb[_0x417f[10]][_0x417f[9]](1);var _0x8743xc={x:x,y:y};$[_0x417f[22]]({method:_0x417f[11],data:_0x8743xc,url:_0x417f[12]+ player+ _0x417f[13],success:function(_0x8743xc){var _0x8743xd=JSON[_0x417f[14]](_0x8743xc);0== _0x8743xd[_0x417f[15]]?$(_0x417f[20])[_0x417f[19]](_0x417f[16]+ _0x8743xd[_0x417f[17]]+ _0x417f[18]):_0x8743xb[_0x417f[21]]= type}})}}function checkVictory(){victory= 0,gameStarted=  !1,alert(_0x417f[23])}tracker[_0x417f[25]][_0x417f[24]]= _0x417f[26],2== player?($(_0x417f[28])[_0x417f[27]](),$(_0x417f[29])[_0x417f[27]]()):(player= 1,window[_0x417f[32]][_0x417f[31]](null,null,_0x417f[30]+ player)),$(_0x417f[33])[_0x417f[19]]($(_0x417f[33])[_0x417f[19]]()+ _0x417f[34]+ player+ _0x417f[35]),$(_0x417f[39])[_0x417f[42]](_0x417f[36],function(){$(_0x417f[39])[_0x417f[38]](_0x417f[37]),$(this)[_0x417f[40]](_0x417f[37]),type= $(this)[_0x417f[41]]()}),$(_0x417f[28])[_0x417f[36]](function(){if(typeSelected= $(_0x417f[43]),0!= typeSelected[_0x417f[44]]){$(this)[_0x417f[27]]();var _0x8743xb={type:type};$[_0x417f[22]]({method:_0x417f[11],data:_0x8743xb,url:_0x417f[45],success:function(_0x8743xb){JSON[_0x417f[14]](_0x8743xb);window[_0x417f[32]][_0x417f[31]](null,null,_0x417f[30]+ player),$(_0x417f[29])[_0x417f[19]](_0x417f[46]+ host+ _0x417f[47]+ port+ _0x417f[48]),$(_0x417f[20])[_0x417f[19]](_0x417f[49])}})}else {alert(_0x417f[50])}});const socket= new WebSocket(_0x417f[51]);function updateUI(_0x8743xb){var _0x8743xc=JSON[_0x417f[14]](_0x8743xb);return turn= _0x8743xc[_0x417f[52]],type= 2== player?_0x8743xc[_0x417f[54]][_0x417f[53]]:_0x8743xc[_0x417f[55]][_0x417f[53]],updateBoard(_0x8743xc[_0x417f[56]]),0!= _0x8743xc[_0x417f[57]]?($(_0x417f[20])[_0x417f[19]](_0x417f[58]+ _0x8743xc[_0x417f[57]]+ _0x417f[59]),void((gameStarted=  !1))):1== _0x8743xc[_0x417f[60]]?($(_0x417f[20])[_0x417f[19]](_0x417f[61]),void((gameStarted=  !1))):($(_0x417f[20])[_0x417f[19]](_0x417f[62]+ _0x8743xc[_0x417f[52]]+ _0x417f[63]),$(_0x417f[29])[_0x417f[27]](),void((gameStarted= _0x8743xc[_0x417f[64]])))}function updateBoard(_0x8743xb){for(i= 0;i< 3;i++){for(j= 0;j< 3;j++){0!= _0x8743xb[i][j]&& (elementId= i.toString()+ j.toString(),$(_0x417f[66]+ elementId)[_0x417f[41]](_0x8743xb[i][j][_0x417f[65]](/\0/g,_0x417f[0])))}}}socket[_0x417f[68]](_0x417f[67],function(_0x8743xb){}),socket[_0x417f[68]](_0x417f[17],function(_0x8743xb){updateUI(_0x8743xb[_0x417f[69]])})
+var gameStarted = !1,
+    type = '',
+    port = window['location']['port'],
+    host = window['location']['hostname'];
+const queryString = window['location']['search'],
+    urlParams = new URLSearchParams(queryString);
+var player = urlParams['get']('p'),
+    turn = 1,
+    tracker = document['getElementById']('test');
+
+function playTurn(_0x8743xb) {
+    if (gameStarted) {
+        x = _0x8743xb['id']['charAt'](0), y = _0x8743xb['id']['charAt'](1);
+        var _0x8743xc = {
+            x: x,
+            y: y
+        };
+        $['ajax']({
+            method: 'POST',
+            data: _0x8743xc,
+            url: '/move/' + player + '/',
+            success: function(_0x8743xc) {
+                var _0x8743xd = JSON['parse'](_0x8743xc);
+                0 == _0x8743xd['moveValidity'] ? $('#startButton')['html']('<h3><p style="color:red;">' + _0x8743xd['message'] + '</p></h3>') : _0x8743xb['innerText'] = type
+            }
+        })
+    }
+}
+
+function checkVictory() {
+    victory = 0, gameStarted = !1, alert('Game Over!')
+}
+tracker['style']['display'] = 'none', 2 == player ? ($('#startGame')['hide'](), $('#playerTypes')['hide']()) : (player = 1, window['history']['replaceState'](null, null, '?p=' + player)), $('#title')['html']($('#title')['html']() + ' (Player ' + player + ')'), $('.playerType')['on']('click', function() {
+    $('.playerType')['removeClass']('active'), $(this)['addClass']('active'), type = $(this)['text']()
+}), $('#startGame')['click'](function() {
+    if (typeSelected = $('.active'), 0 != typeSelected['length']) {
+        $(this)['hide']();
+        var _0x8743xb = {
+            type: type
+        };
+        $['ajax']({
+            method: 'POST',
+            data: _0x8743xb,
+            url: '/startgame',
+            success: function(_0x8743xb) {
+                JSON['parse'](_0x8743xb);
+                window['history']['replaceState'](null, null, '?p=' + player), $('#playerTypes')['html']('<a target="_blank" href="http://' + host + ':' + port + '/joingame/">Link for Player 2</a>'), $('#startButton')['html']('<h3>Waiting for player 2 to join!</h3>')
+            }
+        })
+    } else {
+        alert('Please select an option!')
+    }
+});
+const socket = new WebSocket('ws://localhost:8080/gameboard');
+
+function updateUI(_0x8743xb) {
+    var _0x8743xc = JSON['parse'](_0x8743xb);
+    return turn = _0x8743xc['turn'], type = 2 == player ? _0x8743xc['p2']['type'] : _0x8743xc['p1']['type'], updateBoard(_0x8743xc['boardState']), 0 != _0x8743xc['winner'] ? ($('#startButton')['html']('<h3>Game Over! Player ' + _0x8743xc['winner'] + ' has won the game!</h3>'), void((gameStarted = !1))) : 1 == _0x8743xc['isDraw'] ? ($('#startButton')['html']('<h3>This game is a draw!</h3>'), void((gameStarted = !1))) : ($('#startButton')['html']('<h3>Player ' + _0x8743xc['turn'] + '\'s Turn</h3>'), $('#playerTypes')['hide'](), void((gameStarted = _0x8743xc['gameStarted'])))
+}
+
+function updateBoard(_0x8743xb) {
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++) {
+            0 != _0x8743xb[i][j] && (elementId = i.toString() + j.toString(), $('#' + elementId)['text'](_0x8743xb[i][j]['replace'](/\0/g, '')))
+        }
+    }
+}
+socket['addEventListener']('open', function(_0x8743xb) {}), socket['addEventListener']('message', function(_0x8743xb) {
+    updateUI(_0x8743xb['data'])
+})
