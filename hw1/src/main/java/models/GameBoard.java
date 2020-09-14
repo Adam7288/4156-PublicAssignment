@@ -1,5 +1,7 @@
 package models;
 
+import com.google.gson.Gson;
+
 public class GameBoard {
 
   private Player p1;
@@ -17,15 +19,10 @@ public class GameBoard {
   private boolean isDraw;
   
   public GameBoard() {
-	  
-  }
-  
-  public void setPlayer1(char type) {
-	  p1 = new Player(1, type);
-  }
-  
-  public void setPlayer2(char type) {
-	  p1 = new Player(2, type);
+	gameStarted = false;
+	turn = 1;
+	winner = 0;
+	isDraw = false;
   }
 
 public Player getP1() {
@@ -83,5 +80,28 @@ public boolean isDraw() {
 public void setDraw(boolean isDraw) {
 	this.isDraw = isDraw;
 } 
+
+public boolean addMove(Move move) {
+	
+	//check validity = toggle turn if valid. Check for winner;
+	
+	
+	return true;
+}
+
+public String toJson() { //https://stackoverflow.com/questions/18106778/convert-java-object-to-json-and-vice-versa
+	
+	Gson gson=new Gson(); 
+	String gameBoardJson=gson.toJson(this);
+	
+	return gameBoardJson;
+}
+
+private boolean validateMove(Move move) { 
+
   
+}
+
+private void checkForWinner() {
+	
 }

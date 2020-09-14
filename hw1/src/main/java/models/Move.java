@@ -8,9 +8,11 @@ public class Move {
 
   private int moveY;
   
-  public Move() {
+  public Move(Player player, int x, int y) {
 	  
-	
+	this.player = player;   
+	moveX = x;
+	moveY = y;
   }
 
 public Player getPlayer() {
