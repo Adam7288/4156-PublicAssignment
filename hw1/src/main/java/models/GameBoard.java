@@ -49,6 +49,8 @@ public void setGameStarted(boolean gameStarted) {
 	this.gameStarted = gameStarted;
 }
 
+private boolean isGameFinished() { return isDraw || getWinner() > 0; }
+
 public int getTurn() {
 	return turn;
 }
@@ -83,8 +85,13 @@ public void setDraw(boolean isDraw) {
 
 public boolean addMove(Move move) {
 	
-	//check validity = toggle turn if valid. Check for winner;
+	if(!validateMove(move)) 
+		return false;
 	
+	setVal(move.getMoveX(), move.getMoveY(), move.getPlayer().getType());
+	
+	checkForWinner();
+	toggleTurn();
 	
 	return true;
 }
@@ -98,10 +105,93 @@ public String toJson() { //https://stackoverflow.com/questions/18106778/convert-
 }
 
 private boolean validateMove(Move move) { 
+	
+	//not their turn
+	if(move.getPlayer().getId() != turn || isGameFinished())
+		return false;
+	
+	//out of bounds
+	if(move.getMoveX() > 2 || move.getMoveX() < 0 || move.getMoveY() > 2 || move.getMoveY() < 0)
+		return false;
+	
+	//already a mark in that spot
+	if(getVal(move.getMoveX(), move.getMoveY()) != 0)
+		return false;
+	
+	return true;
+}
 
-  
+private void toggleTurn() { 
+	
+	int newTurn = getTurn() == 1 ? 2 : 1; 
+	setTurn(newTurn);
+}
+
+private char getVal(int x, int y) { return getBoardState()[x][y]; }
+
+private void setVal(int x, int y, char type) { boardState[x][y] = type; }
+
+private int getPlayerNumFromType(char type) {
+	
+	if(p1.getType() == type)
+		return p1.getId();
+	
+	return p2.getId();
 }
 
 private void checkForWinner() {
 	
+	boolean openSpots = false;
+	
+	//check horiz
+	for(int i=0; i<=2; i++) {
+		
+		char curVal = 0;
+		for(int j=0; j<=2; j++) {
+			
+			if(j==0) {
+				curVal = getVal(i, j);
+				continue;
+			}
+			
+			if(curVal != getVal(i, j))
+				break;
+			
+			if(j == 2) {			
+				setWinner(getPlayerNumFromType(getVal(i, j)));
+				return;
+			}
+		}
+			
+	}
+	
+	//check vert
+	for(int j=0; j<=2; j++) {
+		
+		char curVal = 0;
+		for(int i=0; i<=2; i++) {
+			
+			if(j==0) {
+				curVal = getVal(i, j);
+				continue;
+			}
+			
+			if(curVal != getVal(i, j))
+				break;
+			
+			if(j == 2) {			
+				setWinner(getPlayerNumFromType(getVal(i, j)));
+				return;
+			}
+		}	
+	}	
+	
+	//check diag
+	if((getVal(0,0) == getVal(1,1) && getVal(1,1) == getVal(2,2)) || (getVal(2,0) == getVal(1,1) && getVal(1,1) == getVal(0,2))) {
+		setWinner(getPlayerNumFromType(getVal(1, 1))); //set winner as middle marker either way
+		return;
+	}
+	
+	if(!openSpots)
+		isDraw = true;
 }

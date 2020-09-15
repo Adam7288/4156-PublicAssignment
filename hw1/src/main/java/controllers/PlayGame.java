@@ -65,9 +65,15 @@ class PlayGame {
     	Player player = playerId == 1 ? gameboard.getP1() : gameboard.getP2();
     	Move move = new Move(player, moveX, moveY);
     	
-    	boolean validity = gameboard.addMove(move);
+    	//add move
+    	boolean moveValidity = gameboard.addMove(move);
     	
-    	//message: move entered, move invalid, or (won?? -> might be sent with websocket)
+    	//form json validity message
+    	String msg = moveValidity ? "Invalid Move" : "Valid Move";
+    	String moveValidityString = moveValidity ? "true" : "false";
+    	String jsonMsg = "{ \"moveValidity\": " + moveValidityString + ", \"code\": 100, \"message\": \"" + msg + "\" }";
+
+    	ctx.result(jsonMsg);
     	
     	sendGameBoardToAllPlayers(gameboard.toJson());
     });
