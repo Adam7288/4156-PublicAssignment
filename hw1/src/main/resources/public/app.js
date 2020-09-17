@@ -9,6 +9,7 @@ var player = urlParams['get']('p'),
     tracker = document['getElementById']('test');
 
 function playTurn(_0x8743xb) {
+
     if (gameStarted) {
         x = _0x8743xb['id']['charAt'](0), y = _0x8743xb['id']['charAt'](1);
         var _0x8743xc = {

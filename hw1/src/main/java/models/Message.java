@@ -1,35 +1,45 @@
 package models;
 
+import com.google.gson.Gson;
+
 public class Message {
 
   private boolean moveValidity;
-
   private int code;
-
   private String message;
 
-public boolean isMoveValidity() {
-	return moveValidity;
-}
+  public Message() {
+    code = 100;
+  }
 
-public void setMoveValidity(boolean moveValidity) {
-	this.moveValidity = moveValidity;
-}
+  public boolean getMoveValidity() {
+    return moveValidity;
+  }
 
-public int getCode() {
-	return code;
-}
+  public void setMoveValidity(boolean moveValidity) {
+    this.moveValidity = moveValidity;
+  }
 
-public void setCode(int code) {
-	this.code = code;
-}
+  public int getCode() {
+    return code;
+  }
 
-public String getMessage() {
-	return message;
-}
+  public void setCode(int code) {
+    this.code = code;
+  }
 
-public void setMessage(String message) {
-	this.message = message;
-}
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
+  public String toJson() { //https://stackoverflow.com/questions/18106778/convert-java-object-to-json-and-vice-versa
+
+    Gson gson = new Gson(); 
+    return gson.toJson(this);
+  }
 
 }
