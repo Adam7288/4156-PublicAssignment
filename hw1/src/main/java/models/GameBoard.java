@@ -16,6 +16,7 @@ public class GameBoard {
 
   }
 
+  /** Sets the gameboard to initial condition for game start. */
   public void resetGameBoard() {
 
     char[][] initBoardState = { {0, 0, 0}, {0, 0, 0}, {0, 0, 0} }; 
@@ -28,58 +29,108 @@ public class GameBoard {
     isDraw = false;
   }
 
+  /** Get Player object for player 1.
+   * @return p1
+   */
   public Player getP1() {
     return p1;
   }
 
+  /** Sets p1.
+   * @param p1 player 1
+   */
   public void setP1(Player p1) {
     this.p1 = p1;
   }
 
+  /** Get Player object for player 2.
+   * @return p2
+   */
   public Player getP2() {
     return p2;
   }
 
+  /** Sets p2.
+   * @param p2 player 2
+   */
   public void setP2(Player p2) {
     this.p2 = p2;
   }
 
+  /** Returns whether the game has started or not.
+   * @return gamestarted
+   */
   public boolean isGameStarted() {
     return gameStarted;
   }
 
+  /** Set gamestarted.
+   * @param gameStarted Boolean value if game is started or not
+   */
   public void setGameStarted(boolean gameStarted) {
     this.gameStarted = gameStarted;
   }
 
+  /** Returns whether game is completed or not.
+   * @return 
+   */
   private boolean isGameFinished() { 
     return isDraw || getWinner() > 0; 
   }
 
+  /** Returns which player's turn it is.
+   * @return 
+   */
   public int getTurn() {
     return turn;
   }
 
+  /** Set the current player's turn.
+   * @param turn current turn
+   * 
+   */
   public void setTurn(int turn) {
     this.turn = turn;
   }
 
+  /** Returns current board state.
+   * @return boardstate
+   */
   public char[][] getBoardState() {
     return boardState;
   }
 
+  /** Set boardstate.
+   * @param boardState the board state
+   * 
+   */
   public void setBoardState(char[][] boardState) {
     this.boardState = boardState;
   }
 
-  private char getVal(int x, int y) { 
+  /** Return value of position at supplied coordinates.
+   * No edge case checking, would be a good addition.
+   * @param x the x coordinate
+   * @param y the y coordinate
+   * @return value of position at supplied coordinates
+   */
+  private char getVal(int x, int y) {     
     return getBoardState()[x][y]; 
   }
 
+  /** sets value of position at supplied coordinates.
+   * No edge case checking, would be a good addition.
+   * @param x the x coordinate
+   * @param y the y coordinate
+   * @param type x or o
+   */
   private void setVal(int x, int y, char type) { 
     boardState[x][y] = type; 
   }
 
+  /** Returns whether table has open slots.
+   * @return 
+   */
   private boolean hasOpenSlots() {
 
     for (int i = 0; i <= 2; i++) {
@@ -93,22 +144,38 @@ public class GameBoard {
     return false;
   }
 
+  /** Returns winner, if any.
+   * @return winner
+   */
   public int getWinner() {
     return winner;
   }
 
+  /** Set winner.
+   * @param winner the winner of the game
+   */
   public void setWinner(int winner) {
     this.winner = winner;
   }
 
+  /** Returns whether game is a draw or not.
+   * @return isDraw
+   */
   public boolean isDraw() {
     return isDraw;
   }
 
+  /** Set isDraw.
+   * @param isDraw whether the game is a draw or not
+   */
   public void setDraw(boolean isDraw) {
     this.isDraw = isDraw;
   } 
 
+  /** Add move, return message object with validity info.
+   * @param move the Move object
+   * @return message
+   */
   public Message addMove(Move move) {
 
     Message message = new Message();
@@ -128,13 +195,23 @@ public class GameBoard {
     return message;
   }
 
+  /** Return object converted to JSON.
+   * @return object converted to JSON
+   */
   public String toJson() { //https://stackoverflow.com/questions/18106778/convert-java-object-to-json-and-vice-versa
 
     Gson gson = new Gson(); 
     return gson.toJson(this);
   }
   
-  //method has side effects - will alter the message
+
+  /** Returns if Move if valid.
+   * Method has side effects - will alter the message.
+   * @param move the Move object
+   * @param message the Message object
+   * @return if move is valid
+   * 
+   */
   private boolean validateMove(Move move, Message message) { 
 
     if (!isGameStarted()) {
@@ -178,12 +255,19 @@ public class GameBoard {
     return true;
   }
 
+  /** Toggles which player's turn it is.
+   * 
+   */
   private void toggleTurn() { 
 
     int newTurn = getTurn() == 1 ? 2 : 1; 
     setTurn(newTurn);
   }
 
+  /** Returns player object based on which char (x or o) they selected.
+   * @param type x or o
+   * @return 
+   */
   private int getPlayerNumFromType(char type) {
 
     if (p1.getType() == type) {
@@ -193,6 +277,9 @@ public class GameBoard {
     return p2.getId();
   }
 
+  /** Checks for winner, sets winner or draw.
+   * 
+   */
   private void checkForWinner() {
 
     //check horiz
