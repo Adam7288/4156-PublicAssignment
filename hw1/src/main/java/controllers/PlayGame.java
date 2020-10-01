@@ -9,7 +9,7 @@ import models.Move;
 import models.Player;
 import org.eclipse.jetty.websocket.api.Session;
 
-class PlayGame {
+public class PlayGame {
 
   private static final int PORT_NUMBER = 8080;
 
@@ -24,11 +24,6 @@ class PlayGame {
       config.addStaticFiles("/public");
     }).start(PORT_NUMBER);
 
-    // Test Echo Server
-    app.post("/echo", ctx -> {
-      ctx.result(ctx.body());
-    });
-    
     GameBoard gameboard = new GameBoard(); 
 
     app.get("/newgame", ctx -> {
@@ -44,19 +39,32 @@ class PlayGame {
     });
 
     app.get("/joingame", ctx -> {
-
-      if (gameboard.getP1() == null) {
+      
+      /*//removing to reduce testing complexity
+      if (gameboard.getP1() == null || gameboard.isGameStarted()) {
         ctx.html("<h1 style=\"color:red;\">Player 1 has not started a game yet.</h1>");
         return;
       }
+      */
 
-      gameboard.setP2(new Player(2, gameboard.getP1().getOpposingType()));
+      gameboard.setP2(new
+          Player(2, gameboard.getP1().getOpposingType()));
       gameboard.setGameStarted(true);
 
       sendGameBoardToAllPlayers(gameboard.toJson());
 
       ctx.redirect("/tictactoe.html?p=2");
     });   
+    
+    /*
+     * Gets gameboard in JSON format for testing purposes
+     * Not enough time to write a websocket client
+     * That would be an interesting endeavor one day
+     */
+    app.get("/gameboard", ctx -> {
+      
+      ctx.result(gameboard.toJson());
+    });
 
     app.post("/move/:playerId", ctx -> {
 

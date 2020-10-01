@@ -27,6 +27,9 @@ public class GameBoard {
     turn = 1;
     winner = 0;
     isDraw = false;
+    
+    p1 = null;
+    p2 = null;
   }
 
   /** Get Player object for player 1.
@@ -97,7 +100,7 @@ public class GameBoard {
    * @return boardstate
    */
   public char[][] getBoardState() {
-    return boardState;
+    return boardState.clone();
   }
 
   /** Set boardstate.
@@ -105,7 +108,7 @@ public class GameBoard {
    * 
    */
   public void setBoardState(char[][] boardState) {
-    this.boardState = boardState;
+    this.boardState = boardState.clone();
   }
 
   /** Return value of position at supplied coordinates.
@@ -114,8 +117,10 @@ public class GameBoard {
    * @param y the y coordinate
    * @return value of position at supplied coordinates
    */
-  private char getVal(int x, int y) {     
-    return getBoardState()[x][y]; 
+  public char getVal(int x, int y) {     
+    
+    char[][] state = getBoardState();
+    return state[x][y]; 
   }
 
   /** sets value of position at supplied coordinates.
@@ -324,7 +329,7 @@ public class GameBoard {
           break;
         }
 
-        if (j == 0) {
+        if (i == 0) {
           curMatchedVal = curVal;
           continue;
         }
@@ -333,7 +338,7 @@ public class GameBoard {
           break;
         }
 
-        if (j == 2) {           
+        if (i == 2) {           
           setWinner(getPlayerNumFromType(curMatchedVal));
           return;
         }

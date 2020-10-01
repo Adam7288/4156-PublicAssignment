@@ -28,13 +28,6 @@ public class Player {
     return type;
   }
 
-  /** Get other player's type.
-   * @return
-   */
-  public char getOpposingType() {
-    return type == 'X' ? 'O' : 'X';
-  }
-
   /** Set type.
    * @param type x or o
    */
@@ -48,4 +41,12 @@ public class Player {
   public void setId(int id) {
     this.id = id;
   } 
+
+  /** Get other player's type.
+   * @return
+   */
+  public char getOpposingType() {
+    return type == 'X' ? 'O' : 'X';
+  }
+
 }
