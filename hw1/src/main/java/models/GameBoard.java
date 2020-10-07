@@ -31,19 +31,18 @@ public class GameBoard {
     loadGameBoard();
   }
   
-  private void loadGameBoard() {
-    
-    if (db.gameExists()) {
-      db.loadGame(this); 
-    }
+  private void loadGameBoard() throws SQLException {
+
+    db.loadGame(this); 
   }
   
-  public void saveGameBoard() {
+  public void saveGameBoard() throws SQLException {
     db.saveGame(this);    
   }
 
-  /** Sets the gameboard to initial condition for game start. */
-  public void resetGameBoard() {
+  /** Sets the gameboard to initial condition for game start. 
+   * @throws SQLException */
+  public void resetGameBoard() throws SQLException {
 
     char[][] initBoardState = { {0, 0, 0}, {0, 0, 0}, {0, 0, 0} }; 
 
@@ -54,7 +53,7 @@ public class GameBoard {
     winner = 0;
     isDraw = false;
     
-    //clear db
+    db.resetGameData();
   }
 
   /** Get Player object for player 1.
@@ -142,7 +141,7 @@ public class GameBoard {
    * @param y the y coordinate
    * @return value of position at supplied coordinates
    */
-  private char getVal(int x, int y) {     
+  public char getVal(int x, int y) {     
     return getBoardState()[x][y]; 
   }
 
@@ -152,7 +151,7 @@ public class GameBoard {
    * @param y the y coordinate
    * @param type x or o
    */
-  private void setVal(int x, int y, char type) { 
+  public void setVal(int x, int y, char type) { 
     boardState[x][y] = type; 
   }
 

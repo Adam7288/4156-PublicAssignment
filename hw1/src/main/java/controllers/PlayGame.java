@@ -43,21 +43,25 @@ class PlayGame {
 
       gameboard.setP1(new Player(1, ctx.formParam("type").charAt(0))); 
       ctx.result(gameboard.toJson());
+      
+      gameboard.saveGameBoard();
     });
 
     app.get("/joingame", ctx -> {
-
+      /*
       if (gameboard.getP1() == null) {
         ctx.html("<h1 style=\"color:red;\">Player 1 has not started a game yet.</h1>");
         return;
       }
-
+      */
       gameboard.setP2(new Player(2, gameboard.getP1().getOpposingType()));
       gameboard.setGameStarted(true);
 
       sendGameBoardToAllPlayers(gameboard.toJson());
 
       ctx.redirect("/tictactoe.html?p=2");
+      
+      gameboard.saveGameBoard();
     });   
 
     app.post("/move/:playerId", ctx -> {
@@ -87,6 +91,7 @@ class PlayGame {
 
       if (message.getMoveValidity()) {
         sendGameBoardToAllPlayers(gameboard.toJson());
+        gameboard.saveGameBoard();
       }
     });
 
