@@ -2,6 +2,7 @@ package controllers;
 
 import io.javalin.Javalin;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Queue;
 import models.GameBoard;
 import models.Message;
@@ -17,8 +18,9 @@ class PlayGame {
 
   /** Main method of the application.
    * @param args Command line arguments
+   * @throws SQLException 
    */
-  public static void main(final String[] args) {
+  public static void main(final String[] args) throws SQLException {
 
     app = Javalin.create(config -> {
       config.addStaticFiles("/public");
@@ -29,17 +31,17 @@ class PlayGame {
       ctx.result(ctx.body());
     });
     
-    GameBoard gameboard = new GameBoard(); 
+    GameBoard gameboard = new GameBoard(true); 
 
     app.get("/newgame", ctx -> {
+      
       ctx.redirect("tictactoe.html");
+      gameboard.resetGameBoard();
     });
 
     app.post("/startgame", ctx -> {
 
-      gameboard.resetGameBoard();
       gameboard.setP1(new Player(1, ctx.formParam("type").charAt(0))); 
-
       ctx.result(gameboard.toJson());
     });
 

@@ -1,6 +1,9 @@
 package models;
 
+import java.sql.SQLException;
+
 import com.google.gson.Gson;
+import utils.DatabaseJDBC;
 
 public class GameBoard {
 
@@ -11,9 +14,32 @@ public class GameBoard {
   private char[][] boardState;
   private int winner;
   private boolean isDraw;
+  private DatabaseJDBC db;
 
-  public GameBoard() {
+  public GameBoard() throws SQLException {
+    db = new DatabaseJDBC();
+  }
+  
+  public GameBoard(boolean loadFromDb) throws SQLException {
 
+    this();
+    
+    if (!loadFromDb) {
+      return;
+    }
+    
+    loadGameBoard();
+  }
+  
+  private void loadGameBoard() {
+    
+    if (db.gameExists()) {
+      db.loadGame(this); 
+    }
+  }
+  
+  public void saveGameBoard() {
+    db.saveGame(this);    
   }
 
   /** Sets the gameboard to initial condition for game start. */
@@ -27,6 +53,8 @@ public class GameBoard {
     turn = 1;
     winner = 0;
     isDraw = false;
+    
+    //clear db
   }
 
   /** Get Player object for player 1.
