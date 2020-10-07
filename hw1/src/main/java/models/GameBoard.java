@@ -1,6 +1,9 @@
 package models;
 
+import java.sql.SQLException;
+
 import com.google.gson.Gson;
+import utils.DatabaseJDBC;
 
 public class GameBoard {
 
@@ -11,13 +14,35 @@ public class GameBoard {
   private char[][] boardState;
   private int winner;
   private boolean isDraw;
+  private DatabaseJDBC db;
 
-  public GameBoard() {
+  public GameBoard() throws SQLException {
+    db = new DatabaseJDBC();
+  }
+  
+  public GameBoard(boolean loadFromDb) throws SQLException {
 
+    db = new DatabaseJDBC();
+    
+    if (!loadFromDb) {
+      return;
+    }
+    
+    loadGameBoard();
+  }
+  
+  private void loadGameBoard() throws SQLException {
+
+    db.loadGame(this); 
+  }
+  
+  public void saveGameBoard() throws SQLException {
+    db.saveGame(this);    
   }
 
-  /** Sets the gameboard to initial condition for game start. */
-  public void resetGameBoard() {
+  /** Sets the gameboard to initial condition for game start. 
+   * @throws SQLException */
+  public void resetGameBoard() throws SQLException {
 
     char[][] initBoardState = { {0, 0, 0}, {0, 0, 0}, {0, 0, 0} }; 
 
@@ -28,8 +53,7 @@ public class GameBoard {
     winner = 0;
     isDraw = false;
     
-    p1 = null;
-    p2 = null;
+    db.resetGameData();
   }
 
   /** Get Player object for player 1.
@@ -100,7 +124,7 @@ public class GameBoard {
    * @return boardstate
    */
   public char[][] getBoardState() {
-    return boardState.clone();
+    return boardState;
   }
 
   /** Set boardstate.
@@ -108,7 +132,7 @@ public class GameBoard {
    * 
    */
   public void setBoardState(char[][] boardState) {
-    this.boardState = boardState.clone();
+    this.boardState = boardState;
   }
 
   /** Return value of position at supplied coordinates.
@@ -118,9 +142,7 @@ public class GameBoard {
    * @return value of position at supplied coordinates
    */
   public char getVal(int x, int y) {     
-    
-    char[][] state = getBoardState();
-    return state[x][y]; 
+    return getBoardState()[x][y]; 
   }
 
   /** sets value of position at supplied coordinates.
@@ -129,7 +151,7 @@ public class GameBoard {
    * @param y the y coordinate
    * @param type x or o
    */
-  private void setVal(int x, int y, char type) { 
+  public void setVal(int x, int y, char type) { 
     boardState[x][y] = type; 
   }
 
@@ -329,7 +351,7 @@ public class GameBoard {
           break;
         }
 
-        if (i == 0) {
+        if (j == 0) {
           curMatchedVal = curVal;
           continue;
         }
@@ -338,7 +360,7 @@ public class GameBoard {
           break;
         }
 
-        if (i == 2) {           
+        if (j == 2) {           
           setWinner(getPlayerNumFromType(curMatchedVal));
           return;
         }

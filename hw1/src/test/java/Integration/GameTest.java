@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.gson.Gson;
 import controllers.PlayGame;
+import java.sql.SQLException;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
@@ -23,9 +24,10 @@ public class GameTest {
 
   /**
    * Runs only once before the testing starts.
+   * @throws SQLException 
    */
   @BeforeAll
-  public static void init() {
+  public static void init() throws SQLException {
     // Start Server
     PlayGame.main(null);
     System.out.println("Before All");

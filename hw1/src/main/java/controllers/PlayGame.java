@@ -2,6 +2,7 @@ package controllers;
 
 import io.javalin.Javalin;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Queue;
 import models.GameBoard;
 import models.Message;
@@ -17,54 +18,51 @@ public class PlayGame {
 
   /** Main method of the application.
    * @param args Command line arguments
+   * @throws SQLException 
    */
-  public static void main(final String[] args) {
+  public static void main(final String[] args) throws SQLException {
 
     app = Javalin.create(config -> {
       config.addStaticFiles("/public");
     }).start(PORT_NUMBER);
 
-    GameBoard gameboard = new GameBoard(); 
+    // Test Echo Server
+    app.post("/echo", ctx -> {
+      ctx.result(ctx.body());
+    });
+    
+    GameBoard gameboard = new GameBoard(true); 
 
     app.get("/newgame", ctx -> {
+      
       ctx.redirect("tictactoe.html");
+      gameboard.resetGameBoard();
     });
 
     app.post("/startgame", ctx -> {
 
-      gameboard.resetGameBoard();
       gameboard.setP1(new Player(1, ctx.formParam("type").charAt(0))); 
-
       ctx.result(gameboard.toJson());
+      
+      gameboard.saveGameBoard();
     });
 
     app.get("/joingame", ctx -> {
-      
-      /*//removing to reduce testing complexity
-      if (gameboard.getP1() == null || gameboard.isGameStarted()) {
+      /*
+      if (gameboard.getP1() == null) {
         ctx.html("<h1 style=\"color:red;\">Player 1 has not started a game yet.</h1>");
         return;
       }
       */
-
-      gameboard.setP2(new
-          Player(2, gameboard.getP1().getOpposingType()));
+      gameboard.setP2(new Player(2, gameboard.getP1().getOpposingType()));
       gameboard.setGameStarted(true);
 
       sendGameBoardToAllPlayers(gameboard.toJson());
 
       ctx.redirect("/tictactoe.html?p=2");
-    });   
-    
-    /*
-     * Gets gameboard in JSON format for testing purposes
-     * Not enough time to write a websocket client
-     * That would be an interesting endeavor one day
-     */
-    app.get("/gameboard", ctx -> {
       
-      ctx.result(gameboard.toJson());
-    });
+      gameboard.saveGameBoard();
+    });   
 
     app.post("/move/:playerId", ctx -> {
 
@@ -93,6 +91,7 @@ public class PlayGame {
 
       if (message.getMoveValidity()) {
         sendGameBoardToAllPlayers(gameboard.toJson());
+        gameboard.saveGameBoard();
       }
     });
 

@@ -3,6 +3,8 @@ package Unit;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.sql.SQLException;
+
 import models.GameBoard;
 import models.Message;
 import models.Move;
@@ -12,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 public class GameBoardTest {
 
-  GameBoard gameboard = new GameBoard();
+  GameBoard gameboard = new GameBoard(true);
   Player p1 = new Player(1, 'X');
   Player p2 = new Player(2, 'O');
 
@@ -20,7 +22,7 @@ public class GameBoardTest {
    * This method clears the gameboard and starts the game.
    */    
   @BeforeEach
-  public void startNewGame() {
+  public void startNewGame() throws SQLException {
 
     gameboard.resetGameBoard();
 
@@ -32,9 +34,10 @@ public class GameBoardTest {
   
   /**
    * This method tests the initial settings of the gameboard.
+   * @throws SQLException 
    */
   @Test
-  public void testInitialGameBoardState() {
+  public void testInitialGameBoardState() throws SQLException {
 
     gameboard.resetGameBoard();
 
@@ -49,9 +52,10 @@ public class GameBoardTest {
 
   /**
    * This method tests that a player cannot make a move before the game has started.
+   * @throws SQLException 
    */
   @Test
-  public void testGameNotStartedYet() {
+  public void testGameNotStartedYet() throws SQLException {
 
     gameboard.resetGameBoard();
 
