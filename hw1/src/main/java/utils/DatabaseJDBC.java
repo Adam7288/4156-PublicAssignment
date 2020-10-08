@@ -13,7 +13,7 @@ public class DatabaseJDBC {
   /** Default constuctor. Sets up schema if necessary. 
    * 
    */
-  public DatabaseJDBC() throws SQLException {
+  public DatabaseJDBC() {
     try {
       Class.forName("org.sqlite.JDBC");
     } catch (ClassNotFoundException e) {
@@ -21,26 +21,34 @@ public class DatabaseJDBC {
       System.exit(0);
     }
     
-    Connection c = getConn();
-    
     //https://stackoverflow.com/questions/1601151/how-do-i-check-in-sqlite-whether-a-table-exists
     String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='game_data';";
-    Statement stmt = c.createStatement();
-    ResultSet rs = stmt.executeQuery(query);
-    
-    if (isEmptyResult(rs)) {
-      
+    Statement stmt;
+    try {
+      Connection c = getConn();
       stmt = c.createStatement();
-      query = "CREATE TABLE game_data "
-            + "(field_name CHAR(50) PRIMARY KEY NOT NULL,"
-            + "field_value CHAR(50))";
       
-      stmt.executeUpdate(query);
+      ResultSet rs = stmt.executeQuery(query);
+      
+      if (isEmptyResult(rs)) {
+        
+        stmt = c.createStatement();
+        query = "CREATE TABLE game_data "
+              + "(field_name CHAR(50) PRIMARY KEY NOT NULL,"
+              + "field_value CHAR(50))";
+        
+        stmt.executeUpdate(query);
+      }
+      
+      c.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-    
-    c.close();
   }
   
+  /** Saves gameboard object to internal database. Implicit assumption one game at a time.
+   * @param gameBoard the GameBoard object.
+   */
   public void saveGame(GameBoard gameBoard) throws SQLException {
     
     if (gameBoard.getP1() != null) {
@@ -71,6 +79,9 @@ public class DatabaseJDBC {
     }
   }
   
+  /** Loads saved game from db into GameBoard object.
+   * @param gameBoard the GameBoard object.
+   */
   public void loadGame(GameBoard gameBoard) throws SQLException {
     
     if (!gameExists()) {
@@ -104,10 +115,11 @@ public class DatabaseJDBC {
         gameBoard.setVal(i, j, val);
       }
     }
-    
-    System.out.println(gameBoard.toJson());
   }
   
+  /** Find out if ResultSet is empty.
+   * @return whether or not provided resultset is empty.
+   */
   private boolean gameExists() throws SQLException {
     
     Connection c = getConn();
@@ -121,6 +133,9 @@ public class DatabaseJDBC {
     return !isEmptyResult(rs);
   }
   
+  /** Deletes all saved data from db. 
+   * 
+   */
   public void resetGameData() throws SQLException {
     
     Connection c = getConn();
@@ -132,6 +147,10 @@ public class DatabaseJDBC {
     c.close();
   }
   
+  /** Get value of field in db.
+   * @param fieldName the name of field needing data value.
+   * @return gets value of db for given field.
+   */
   private String getValue(String fieldName) throws SQLException {
     
     Connection c = getConn();
@@ -154,6 +173,10 @@ public class DatabaseJDBC {
     return value;
   }
   
+  /** Sets a field in db with given value. Overwrites existing value if present.
+   * @param fieldName name of field in db to set.
+   * @param value value of the data to set.
+   */
   private void setValue(String fieldName, String value) throws SQLException {
     
     Connection c = getConn();
@@ -172,10 +195,17 @@ public class DatabaseJDBC {
     c.close();    
   }
   
+  /** Find out if ResultSet is empty.
+   * @param rs the provided ResultSet object to test.
+   * @return whether or not provided resultset is empty.
+   */
   private boolean isEmptyResult(ResultSet rs) throws SQLException {
     return !rs.isBeforeFirst();
   }
   
+  /** Get a sqlite connection.
+   * @return new db Connection object.
+   */
   private Connection getConn() throws SQLException {
     return DriverManager.getConnection("jdbc:sqlite:game.db");
   }

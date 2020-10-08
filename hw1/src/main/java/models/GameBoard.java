@@ -37,7 +37,7 @@ public class GameBoard {
     loadGameBoard();
   }
   
-  private void loadGameBoard() {
+  public void loadGameBoard() {
 
     try {
       DatabaseJDBC db = new DatabaseJDBC();

@@ -24,7 +24,6 @@ public class GameTest {
 
   /**
    * Runs only once before the testing starts.
-   * @throws SQLException 
    */
   @BeforeAll
   public static void init() throws SQLException {
@@ -194,11 +193,11 @@ public class GameTest {
   }
   
   /*
-   * This tests if a game can end in a draw
+   * This tests if a game can end in a draw\
    */
   @Test
   @Order(7)   
-  public void testGameEndsInDraw() {
+  public void testGameEndsInDraw() throws SQLException, InterruptedException {
     
     //restart game and initialize players
     HttpResponse<String> response = Unirest.get("http://localhost:8080/newgame").asString();
@@ -210,9 +209,11 @@ public class GameTest {
     response = Unirest.post("http://localhost:8080/move/2").body("x=0&y=1").asString();
     response = Unirest.post("http://localhost:8080/move/1").body("x=0&y=2").asString();
     response = Unirest.post("http://localhost:8080/move/2").body("x=1&y=1").asString();
-    app.stop();
-    app.start();
+    PlayGame.stop();
+    PlayGame.main(null);
+    Thread.sleep(2000);
     response = Unirest.post("http://localhost:8080/move/1").body("x=1&y=0").asString();
+    System.out.println(response);
     response = Unirest.post("http://localhost:8080/move/2").body("x=1&y=2").asString();
     response = Unirest.post("http://localhost:8080/move/1").body("x=2&y=1").asString();
     response = Unirest.post("http://localhost:8080/move/2").body("x=2&y=0").asString();
