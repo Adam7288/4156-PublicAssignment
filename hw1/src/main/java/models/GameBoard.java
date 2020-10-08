@@ -1,8 +1,7 @@
 package models;
 
-import java.sql.SQLException;
-
 import com.google.gson.Gson;
+import java.sql.SQLException;
 import utils.DatabaseJDBC;
 
 public class GameBoard {
@@ -14,15 +13,22 @@ public class GameBoard {
   private char[][] boardState;
   private int winner;
   private boolean isDraw;
-  private DatabaseJDBC db;
 
-  public GameBoard() throws SQLException {
-    db = new DatabaseJDBC();
+  /** Default constructor. Sets gameboard as blank.
+   * 
+   */
+  public GameBoard() {
+    
+    char[][] initBoardState = { {0, 0, 0}, {0, 0, 0}, {0, 0, 0} };
+    setBoardState(initBoardState);
   }
   
-  public GameBoard(boolean loadFromDb) throws SQLException {
+  /** Overloaded constructor to take in the "loadFomDb boolean argument. 
+   * @loadFromDb whether other not to load a gamestate from the db if present
+   */
+  public GameBoard(boolean loadFromDb) {
 
-    db = new DatabaseJDBC();
+    this();
     
     if (!loadFromDb) {
       return;
@@ -31,18 +37,33 @@ public class GameBoard {
     loadGameBoard();
   }
   
-  private void loadGameBoard() throws SQLException {
+  private void loadGameBoard() {
 
-    db.loadGame(this); 
+    try {
+      DatabaseJDBC db = new DatabaseJDBC();
+      db.loadGame(this);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } 
   }
-  
-  public void saveGameBoard() throws SQLException {
-    db.saveGame(this);    
+ 
+  /** Sets the gameboard to initial condition for game start. 
+   * 
+   */
+  public void saveGameBoard() {
+    
+    try {
+      DatabaseJDBC db = new DatabaseJDBC();
+      db.saveGame(this);  
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } 
   }
 
   /** Sets the gameboard to initial condition for game start. 
-   * @throws SQLException */
-  public void resetGameBoard() throws SQLException {
+   * 
+   */
+  public void resetGameBoard() {
 
     char[][] initBoardState = { {0, 0, 0}, {0, 0, 0}, {0, 0, 0} }; 
 
@@ -53,7 +74,12 @@ public class GameBoard {
     winner = 0;
     isDraw = false;
     
-    db.resetGameData();
+    try {
+      DatabaseJDBC db = new DatabaseJDBC();
+      db.resetGameData();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } 
   }
 
   /** Get Player object for player 1.
@@ -149,7 +175,7 @@ public class GameBoard {
    * No edge case checking, would be a good addition.
    * @param x the x coordinate
    * @param y the y coordinate
-   * @param type x or o
+   * @param type X or O
    */
   public void setVal(int x, int y, char type) { 
     boardState[x][y] = type; 

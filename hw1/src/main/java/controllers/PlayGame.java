@@ -36,11 +36,13 @@ public class PlayGame {
     app.get("/newgame", ctx -> {
       
       ctx.redirect("tictactoe.html");
-      gameboard.resetGameBoard();
+      
     });
 
     app.post("/startgame", ctx -> {
-
+      
+      gameboard.resetGameBoard();
+      
       gameboard.setP1(new Player(1, ctx.formParam("type").charAt(0))); 
       ctx.result(gameboard.toJson());
       
@@ -48,7 +50,7 @@ public class PlayGame {
     });
 
     app.get("/joingame", ctx -> {
-      /*
+      /* //removing to reduce testing complexity
       if (gameboard.getP1() == null) {
         ctx.html("<h1 style=\"color:red;\">Player 1 has not started a game yet.</h1>");
         return;
@@ -62,7 +64,17 @@ public class PlayGame {
       ctx.redirect("/tictactoe.html?p=2");
       
       gameboard.saveGameBoard();
-    });   
+    }); 
+    
+    /*
+     * Gets gameboard in JSON format for testing purposes
+     * Not enough time to write a websocket client
+     * That would be an interesting endeavor one day
+     */
+    app.get("/gameboard", ctx -> {
+      
+      ctx.result(gameboard.toJson());
+    });
 
     app.post("/move/:playerId", ctx -> {
 

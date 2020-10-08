@@ -1,23 +1,23 @@
 package Unit;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.SQLException;
-
 import models.GameBoard;
 import models.Message;
 import models.Move;
 import models.Player;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class GameBoardTest {
 
-  GameBoard gameboard = new GameBoard(true);
+  GameBoard gameboard = new GameBoard();
   Player p1 = new Player(1, 'X');
   Player p2 = new Player(2, 'O');
-
+  
   /*
    * This method clears the gameboard and starts the game.
    */    

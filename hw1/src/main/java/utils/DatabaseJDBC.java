@@ -5,12 +5,14 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import models.GameBoard;
 import models.Player;
 
 public class DatabaseJDBC {
-  
+ 
+  /** Default constuctor. Sets up schema if necessary. 
+   * 
+   */
   public DatabaseJDBC() throws SQLException {
     try {
       Class.forName("org.sqlite.JDBC");
@@ -26,7 +28,7 @@ public class DatabaseJDBC {
     Statement stmt = c.createStatement();
     ResultSet rs = stmt.executeQuery(query);
     
-    if(isEmptyResult(rs)) {
+    if (isEmptyResult(rs)) {
       
       stmt = c.createStatement();
       query = "CREATE TABLE game_data "
@@ -46,7 +48,7 @@ public class DatabaseJDBC {
     }
     
     if (gameBoard.getP2() != null) {
-      setValue("p2Code", Character.toString(gameBoard.getP1().getType()));
+      setValue("p2Code", Character.toString(gameBoard.getP2().getType()));
     }
     
     String gameStartedString = gameBoard.isGameStarted() ? "true" : "false";
@@ -99,10 +101,11 @@ public class DatabaseJDBC {
         
         char val = getValue(i + ":" + j).charAt(0);
         val = val == '0' ? 0 : val;
-        
         gameBoard.setVal(i, j, val);
       }
     }
+    
+    System.out.println(gameBoard.toJson());
   }
   
   private boolean gameExists() throws SQLException {
