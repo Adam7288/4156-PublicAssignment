@@ -74,12 +74,8 @@ public class GameBoard {
     winner = 0;
     isDraw = false;
     
-    try {
-      DatabaseJDBC db = new DatabaseJDBC();
-      db.resetGameData();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    } 
+    DatabaseJDBC db = new DatabaseJDBC();
+    db.resetGameData();
   }
 
   /** Get Player object for player 1.
@@ -150,7 +146,7 @@ public class GameBoard {
    * @return boardstate
    */
   public char[][] getBoardState() {
-    return boardState;
+    return boardState.clone();
   }
 
   /** Set boardstate.
@@ -158,7 +154,7 @@ public class GameBoard {
    * 
    */
   public void setBoardState(char[][] boardState) {
-    this.boardState = boardState;
+    this.boardState = boardState.clone();
   }
 
   /** Return value of position at supplied coordinates.
@@ -335,7 +331,7 @@ public class GameBoard {
    */
   private void checkForWinner() {
 
-    //check horiz
+    //check vert
     for (int i = 0; i <= 2; i++) {
 
       char curMatchedVal = 0;
@@ -364,7 +360,7 @@ public class GameBoard {
       }
     }
 
-    //check vert
+    //check horiz
     for (int j = 0; j <= 2; j++) {
 
       char curMatchedVal = 0;
@@ -377,7 +373,7 @@ public class GameBoard {
           break;
         }
 
-        if (j == 0) {
+        if (i == 0) {
           curMatchedVal = curVal;
           continue;
         }
@@ -386,7 +382,7 @@ public class GameBoard {
           break;
         }
 
-        if (j == 2) {           
+        if (i == 2) {           
           setWinner(getPlayerNumFromType(curMatchedVal));
           return;
         }

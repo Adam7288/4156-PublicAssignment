@@ -17,6 +17,7 @@ public class GameBoardTest {
   GameBoard gameboard = new GameBoard();
   Player p1 = new Player(1, 'X');
   Player p2 = new Player(2, 'O');
+
   
   /*
    * This method clears the gameboard and starts the game.
@@ -34,7 +35,6 @@ public class GameBoardTest {
   
   /**
    * This method tests the initial settings of the gameboard.
-   * @throws SQLException 
    */
   @Test
   public void testInitialGameBoardState() throws SQLException {
@@ -52,7 +52,6 @@ public class GameBoardTest {
 
   /**
    * This method tests that a player cannot make a move before the game has started.
-   * @throws SQLException 
    */
   @Test
   public void testGameNotStartedYet() throws SQLException {

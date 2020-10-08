@@ -18,7 +18,6 @@ public class PlayGame {
 
   /** Main method of the application.
    * @param args Command line arguments
-   * @throws SQLException 
    */
   public static void main(final String[] args) throws SQLException {
 

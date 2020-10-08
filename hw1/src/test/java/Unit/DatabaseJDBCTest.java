@@ -33,7 +33,11 @@ public class DatabaseJDBCTest {
   @Order(2)
   public void testLoadGame() throws SQLException {
     
+    gameBoard.setVal(0, 0, 'X');
+    gameBoard.saveGameBoard();    
+    
     gameBoard = new GameBoard(true); //load new gameboard object and load the db if avail
+
     assertEquals('X', gameBoard.getVal(0, 0));
   }
   
@@ -41,7 +45,7 @@ public class DatabaseJDBCTest {
    * This method tests resetting game data.
    */
   @Test
-  @Order(2)
+  @Order(3)
   public void testResetGameData() throws SQLException {
     
     db.resetGameData();

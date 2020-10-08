@@ -2,6 +2,7 @@ package utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,36 +15,74 @@ public class DatabaseJDBC {
    * 
    */
   public DatabaseJDBC() {
+    
+    Connection c = null;
+    ResultSet rs = null;
+    Statement stmt = null;
+    Statement stmt2 = null;
+    
     try {
       Class.forName("org.sqlite.JDBC");
     } catch (ClassNotFoundException e) {
       System.err.println(e.getClass().getName() + ": " + e.getMessage());
-      System.exit(0);
     }
     
     //https://stackoverflow.com/questions/1601151/how-do-i-check-in-sqlite-whether-a-table-exists
     String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='game_data';";
-    Statement stmt;
+    
     try {
-      Connection c = getConn();
-      stmt = c.createStatement();
       
-      ResultSet rs = stmt.executeQuery(query);
+      c = getConn();
+      
+      stmt = c.createStatement();
+      rs = stmt.executeQuery(query);
       
       if (isEmptyResult(rs)) {
         
-        stmt = c.createStatement();
+        stmt2 = c.createStatement();
         query = "CREATE TABLE game_data "
               + "(field_name CHAR(50) PRIMARY KEY NOT NULL,"
               + "field_value CHAR(50))";
         
-        stmt.executeUpdate(query);
+        stmt2.executeUpdate(query);
       }
       
-      c.close();
     } catch (SQLException e) {
       e.printStackTrace();
+    } finally {
+      try {
+        if (c != null) {
+          c.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      
+      try {
+        if (rs != null) {
+          rs.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      
+      try {
+        if (stmt != null) {
+          stmt.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      
+      try {
+        if (stmt2 != null) {
+          stmt2.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }      
     }
+
   }
   
   /** Saves gameboard object to internal database. Implicit assumption one game at a time.
@@ -120,55 +159,147 @@ public class DatabaseJDBC {
   /** Find out if ResultSet is empty.
    * @return whether or not provided resultset is empty.
    */
-  private boolean gameExists() throws SQLException {
+  private boolean gameExists() {
     
-    Connection c = getConn();
+    Connection c = null;
+    ResultSet rs = null;
+    Statement stmt = null;
     
-    String query = "SELECT field_name FROM game_data LIMIT 1;";
-    Statement stmt = c.createStatement();
-    ResultSet rs = stmt.executeQuery(query);
+    boolean gameExists = false;
     
-    c.close();
+    try {
+      
+      c = getConn();
+      
+      String query = "SELECT field_name FROM game_data LIMIT 1;";
+      stmt = c.createStatement();
+      
+      rs = stmt.executeQuery(query);
+      
+      gameExists = !isEmptyResult(rs);
+      
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        if (c != null) {
+          c.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      
+      try {
+        if (rs != null) {
+          rs.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      
+      try {
+        if (stmt != null) {
+          stmt.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
     
-    return !isEmptyResult(rs);
+    return gameExists;
   }
   
   /** Deletes all saved data from db. 
    * 
    */
-  public void resetGameData() throws SQLException {
+  public void resetGameData() {
     
-    Connection c = getConn();
+    Connection c = null;
+    Statement stmt = null;
     
-    String query = "DELETE FROM game_data;";
-    Statement stmt = c.createStatement();
-    stmt.executeUpdate(query);  
+    try {
+      c = getConn();
+      
+      String query = "DELETE FROM game_data;";
+      stmt = c.createStatement();
+      stmt.executeUpdate(query);  
+      
+    } catch (SQLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } finally {
     
-    c.close();
+      try {
+        if (c != null) {
+          c.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      
+      try {
+        if (stmt != null) {
+          stmt.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
   }
   
   /** Get value of field in db.
    * @param fieldName the name of field needing data value.
    * @return gets value of db for given field.
    */
-  private String getValue(String fieldName) throws SQLException {
-    
-    Connection c = getConn();
-    
-    Statement stmt = c.createStatement();
-    ResultSet rs = stmt.executeQuery("SELECT field_value FROM game_data WHERE field_name = '" 
-        + fieldName + "';");
+  private String getValue(String fieldName) {
     
     String value = "";
+    Connection c = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
     
-    if (!isEmptyResult(rs)) {
-      while (rs.next()) {
-        value = rs.getString("field_value");
-        break;
+    try {
+      
+      c = getConn();
+      
+      stmt = c.prepareStatement("SELECT field_value FROM game_data WHERE field_name = ?;");
+      stmt.setString(1, fieldName);
+      
+      rs = stmt.executeQuery();
+      
+      if (!isEmptyResult(rs)) {
+        while (rs.next()) {
+          value = rs.getString("field_value");
+          break;
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        if (c != null) {
+          c.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      
+      try {
+        if (stmt != null) {
+          stmt.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      
+      try {
+        if (rs != null) {
+          rs.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
       }
     }
-    
-    c.close();
     
     return value;
   }
@@ -177,30 +308,73 @@ public class DatabaseJDBC {
    * @param fieldName name of field in db to set.
    * @param value value of the data to set.
    */
-  private void setValue(String fieldName, String value) throws SQLException {
+  private void setValue(String fieldName, String value)  {
     
-    Connection c = getConn();
+    Connection c = null;
+    PreparedStatement stmt = null;
+    PreparedStatement stmt2 = null;
     
-    //first delete existing tuple if present
-    String query = "DELETE FROM game_data WHERE field_name = '" + fieldName + "';";
-    Statement stmt = c.createStatement();
-    stmt.executeUpdate(query);
-    
-    //insert new tuple
-    query = "INSERT INTO game_data ('field_name','field_value') "
-        + "VALUES ('" + fieldName + "','" + value + "');";
-    stmt = c.createStatement();
-    stmt.executeUpdate(query);
-    
-    c.close();    
+    try {
+      
+      c = getConn();
+      
+      //first delete existing tuple if present
+      stmt = c.prepareStatement("DELETE FROM game_data WHERE field_name = ?;");
+      stmt.setString(1, fieldName);
+      stmt.executeUpdate();
+      
+      //insert new tuple
+      stmt2 = c.prepareStatement("INSERT INTO game_data ('field_name','field_value') "
+          + "VALUES (?,?);");
+      stmt2.setString(1, fieldName);
+      stmt2.setString(2, value);
+      
+      stmt2.executeUpdate();
+      
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        if (c != null) {
+          c.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      
+      try {
+        if (stmt != null) {
+          stmt.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      
+      try {
+        if (stmt2 != null) {
+          stmt2.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }      
+    }  
   }
   
   /** Find out if ResultSet is empty.
    * @param rs the provided ResultSet object to test.
    * @return whether or not provided resultset is empty.
    */
-  private boolean isEmptyResult(ResultSet rs) throws SQLException {
-    return !rs.isBeforeFirst();
+  private boolean isEmptyResult(ResultSet rs) {
+    
+    boolean isEmpty = false;
+    
+    try {
+      isEmpty = !rs.isBeforeFirst();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    
+    return isEmpty;
   }
   
   /** Get a sqlite connection.
